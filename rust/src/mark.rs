@@ -27,7 +27,7 @@ pub struct Mark {
     pub value: ScalarValue,
 }
 
-impl<'a> From<&'a am::marks:: Mark> for Mark {
+impl<'a> From<&'a am::marks::Mark> for Mark {
     fn from(am_mark: &'a am::marks::Mark) -> Mark {
         Mark {
             start: am_mark.start as u64,
