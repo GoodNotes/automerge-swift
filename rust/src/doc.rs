@@ -8,6 +8,8 @@ use crate::actor_id::ActorId;
 use crate::cursor::Position;
 use crate::mark::{ExpandMark, KeyValue, Mark};
 use crate::patches::Patch;
+use crate::text_encoding::TextEncoding;
+
 use crate::{
     Change, ChangeHash, Cursor, ObjId, ObjType, PathElement, ScalarValue, SyncState, Value,
 };
@@ -50,6 +52,16 @@ impl Doc {
         Self(RwLock::new(
             am::AutoCommit::default().with_actor(actor.into()),
         ))
+    }
+
+    pub fn new_with_text_encoding(text_encoding: TextEncoding) -> Self {
+        Self(RwLock::new(am::AutoCommit::new_with_encoding(
+            text_encoding.into(),
+        )))
+    }
+
+    pub fn text_encoding(&self) -> TextEncoding {
+        self.0.read().unwrap().text_encoding().into()
     }
 
     pub fn actor_id(&self) -> ActorId {
