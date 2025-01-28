@@ -4,63 +4,12 @@ import Foundation
 import PackageDescription
 
 var globalSwiftSettings: [PackageDescription.SwiftSetting] = []
-#if swift(>=5.9)
-// Only enable these additional checker settings if the environment variable
-// `LOCAL_BUILD` is set. Previous value of `CI` was a poor choice because iOS
-// apps in GitHub Actions would trigger this as unsafe flags and fail builds
-// when using a released library.
-if ProcessInfo.processInfo.environment["LOCAL_BUILD"] != nil {
-    globalSwiftSettings.append(.unsafeFlags(["-Xfrontend", "-strict-concurrency=complete"]))
-    /*
-     Summation from https://www.donnywals.com/enabling-concurrency-warnings-in-xcode-14/
-     Set `strict-concurrency` to `targeted` to enforce Sendable and actor-isolation
-     checks in your code. This explicitly verifies that `Sendable` constraints are
-     met when you mark one of your types as `Sendable`.
+globalSwiftSettings.append(.unsafeFlags(["-Xfrontend", "-strict-concurrency=complete"]))
 
-     This mode is essentially a bit of a hybrid between the behavior that's intended
-     in Swift 6, and the default in Swift 5.7. Use this mode to have a bit of
-     checking on your code that uses Swift concurrency without too many warnings
-     and / or errors in your current codebase.
-
-     Set `strict-concurrency` to `complete` to get the full suite of concurrency
-     constraints, essentially as they will work in Swift 6.
-     */
-}
-#endif
-
-// When we move to Swift 5.8 tools version, the above can be collapsed into:
-//
-// if ProcessInfo.processInfo.environment["LOCAL_BUILD"] != nil {
-//     globalSwiftSettings.append(.enableExperimentalFeature("StrictConcurrency"))
-// }
-
-let FFIbinaryTarget: PackageDescription.Target
-// If the environment variable `LOCAL_BUILD` is set to any value, the packages uses
-// a local reference to the XCFramework file (built from `./scripts/build-xcframework.sh`)
-// rather than the previous released version.
-//
-// The script `./scripts/build-xcframework.sh` _does_ expect that you have Rust
-// installed locally in order to function.
-if ProcessInfo.processInfo.environment["LOCAL_BUILD"] != nil {
-    // We are using a local file reference to an XCFramework, which is functional
-    // on the tags for this package because the XCFramework.zip file is committed with
-    // those specific release points. This does, however, cause a few awkward issues,
-    // in particular it means that swift-docc-plugin doesn't operate correctly as the
-    // process to retrieve the symbols from this and the XCFramework fails within
-    // Swift Package Manager. Building documentation within Xcode works perfectly fine,
-    // but if you're attempting to generate HTML documentation, use the script
-    // `./scripts/build-ghpages-docs.sh`.
-    FFIbinaryTarget = .binaryTarget(
-        name: "automergeFFI",
-        path: "./automergeFFI.xcframework.zip"
-    )
-} else {
-    FFIbinaryTarget = .binaryTarget(
-        name: "automergeFFI",
-        url: "https://github.com/automerge/automerge-swift/releases/download/0.6.0/automergeFFI.xcframework.zip",
-        checksum: "9d8b4a07393b4105cc8c6924736ff09765d3c952e1f7cd63208346d28e52583f"
-    )
-}
+let FFIbinaryTarget: PackageDescription.Target = .binaryTarget(
+    name: "automergeFFI",
+    path: "./bin/automergeFFI.xcframework.zip"
+)
 
 let package = Package(
     name: "Automerge",
