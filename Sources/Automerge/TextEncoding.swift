@@ -1,5 +1,4 @@
 import enum AutomergeUniffi.TextEncoding
-import Foundation
 
 /// An enumeration representing different types of text encoding.
 ///

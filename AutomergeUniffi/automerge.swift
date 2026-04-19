@@ -2,7 +2,15 @@
 // Trust me, you don't want to mess with it!
 
 // swiftlint:disable all
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+
+#if !os(WASI)
+import Foundation
+#endif
 
 // Depending on the consumer's build setup, the low-level FFI code
 // might be in a separate module, or it might be compiled inline into
@@ -241,10 +249,16 @@ private enum UniffiInternalError: LocalizedError {
     }
 }
 
-private extension NSLock {
+private final class UniffiLock {
+    #if !os(WASI)
+    private let lock = NSLock()
+    #endif
+
     func withLock<T>(f: () throws -> T) rethrows -> T {
-        lock()
-        defer { self.unlock() }
+        #if !os(WASI)
+        lock.lock()
+        defer { lock.unlock() }
+        #endif
         return try f()
     }
 }
@@ -357,7 +371,7 @@ private func uniffiTraitInterfaceCallWithError<T, E>(
 
 private class UniffiHandleMap<T> {
     private var map: [UInt64: T] = [:]
-    private let lock = NSLock()
+    private let lock = UniffiLock()
     private var currentHandle: UInt64 = 1
 
     func insert(obj: T) -> UInt64 {
@@ -2018,7 +2032,7 @@ public struct FfiConverterTypeDecodeSyncStateError: FfiConverterRustBuffer {
 
 extension DecodeSyncStateError: Equatable, Hashable {}
 
-extension DecodeSyncStateError: Foundation.LocalizedError {
+extension DecodeSyncStateError: LocalizedError {
     public var errorDescription: String? {
         String(reflecting: self)
     }
@@ -2063,7 +2077,7 @@ public struct FfiConverterTypeDocError: FfiConverterRustBuffer {
 
 extension DocError: Equatable, Hashable {}
 
-extension DocError: Foundation.LocalizedError {
+extension DocError: LocalizedError {
     public var errorDescription: String? {
         String(reflecting: self)
     }
@@ -2164,7 +2178,7 @@ public struct FfiConverterTypeLoadError: FfiConverterRustBuffer {
 
 extension LoadError: Equatable, Hashable {}
 
-extension LoadError: Foundation.LocalizedError {
+extension LoadError: LocalizedError {
     public var errorDescription: String? {
         String(reflecting: self)
     }
@@ -2561,7 +2575,7 @@ public struct FfiConverterTypeReceiveSyncError: FfiConverterRustBuffer {
 
 extension ReceiveSyncError: Equatable, Hashable {}
 
-extension ReceiveSyncError: Foundation.LocalizedError {
+extension ReceiveSyncError: LocalizedError {
     public var errorDescription: String? {
         String(reflecting: self)
     }

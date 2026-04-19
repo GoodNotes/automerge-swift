@@ -1,4 +1,11 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+#if !os(WASI)
+import Dispatch
+#endif
 
 /// A type that represents the value of an Automerge counter.
 ///

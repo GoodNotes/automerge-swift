@@ -1,5 +1,9 @@
 import enum AutomergeUniffi.ScalarValue
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 typealias FFIScalar = AutomergeUniffi.ScalarValue
 
