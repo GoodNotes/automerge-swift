@@ -1,5 +1,9 @@
 import class AutomergeUniffi.SyncState
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 typealias FfiSyncState = AutomergeUniffi.SyncState
 

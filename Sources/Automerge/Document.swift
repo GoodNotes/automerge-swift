@@ -1,6 +1,13 @@
 import class AutomergeUniffi.Doc
 import protocol AutomergeUniffi.DocProtocol
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+#if !os(WASI)
+import Foundation
+#endif
 
 /// An Automerge document that provides an interface to the document-structured data it contains.
 ///

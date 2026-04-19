@@ -2,7 +2,11 @@ import enum AutomergeUniffi.DecodeSyncStateError
 import enum AutomergeUniffi.DocError
 import enum AutomergeUniffi.LoadError
 import enum AutomergeUniffi.ReceiveSyncError
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 typealias FfiDocError = AutomergeUniffi.DocError
 typealias FfiDecodeSyncStateError = AutomergeUniffi.DecodeSyncStateError
