@@ -7,8 +7,9 @@ import FoundationEssentials
 #else
 import Foundation
 #endif
-
-#if !os(WASI)
+#if os(WASI)
+import Synchronization
+#else
 import Foundation
 #endif
 
@@ -250,16 +251,22 @@ private enum UniffiInternalError: LocalizedError {
 }
 
 private final class UniffiLock {
-    #if !os(WASI)
+    #if os(WASI)
+    private let lock = Mutex(())
+    #else
     private let lock = NSLock()
     #endif
 
     func withLock<T>(f: () throws -> T) rethrows -> T {
-        #if !os(WASI)
+        #if os(WASI)
+        return try lock.withLock { _ in
+            try f()
+        }
+        #else
         lock.lock()
         defer { lock.unlock() }
-        #endif
         return try f()
+        #endif
     }
 }
 
@@ -403,7 +410,7 @@ private class UniffiHandleMap<T> {
     }
 
     var count: Int {
-        map.count
+        lock.withLock { map.count }
     }
 }
 
