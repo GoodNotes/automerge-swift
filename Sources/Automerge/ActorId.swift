@@ -1,5 +1,9 @@
 import AutomergeUniffi
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// The identifier for collaborators contributing to an Automerge document.
 ///

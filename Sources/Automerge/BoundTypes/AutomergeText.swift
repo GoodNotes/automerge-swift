@@ -1,4 +1,11 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
+#if !os(WASI)
+import Dispatch
+#endif
 
 // NOTE(heckj): The version Automerge after 2.0 is adding support for "marks"
 // that apply to runs of text within the .Text primitive. This should map

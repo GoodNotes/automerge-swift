@@ -1,5 +1,9 @@
 import AutomergeUniffi
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// An opaque hash that represents a change within an Automerge document.
 public struct ChangeHash: Equatable, Hashable, CustomDebugStringConvertible, Sendable {

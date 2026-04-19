@@ -1,5 +1,9 @@
 import struct AutomergeUniffi.Change
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 typealias FfiChange = AutomergeUniffi.Change
 

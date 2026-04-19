@@ -1,4 +1,8 @@
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
 import Foundation
+#endif
 
 /// A decoder that initializes codable-conforming types from an Automerge document.
 public struct AutomergeDecoder {
