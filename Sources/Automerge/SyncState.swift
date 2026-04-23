@@ -4,6 +4,9 @@ import FoundationEssentials
 #else
 import Foundation
 #endif
+#if !os(WASI)
+import Dispatch
+#endif
 
 typealias FfiSyncState = AutomergeUniffi.SyncState
 
