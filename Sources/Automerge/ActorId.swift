@@ -53,6 +53,6 @@ public struct ActorId: Equatable, Hashable, Sendable {
 extension ActorId: CustomStringConvertible {
     /// A hex-encoded string that represents the bytes of the Actor Id.
     public var description: String {
-        data.map { String(format: "%02hhX", $0) }.joined()
+        data.automergeHexString(uppercase: true)
     }
 }

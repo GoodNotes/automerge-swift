@@ -1,4 +1,8 @@
-import Foundation // for LocalizedError
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
+#endif
 
 /// Automerge Encoding errors
 public enum CodingKeyLookupError: LocalizedError, Equatable {
@@ -58,7 +62,12 @@ public enum CodingKeyLookupError: LocalizedError, Equatable {
         case let .NoPathForSingleValue(str):
             return str
         case let .AutomergeDocError(err):
-            return "An underlying Automerge error: \(err.localizedDescription)"
+            if let localizedError = err as? LocalizedError,
+               let errorDescription = localizedError.errorDescription
+            {
+                return "An underlying Automerge error: \(errorDescription)"
+            }
+            return "An underlying Automerge error: \(String(describing: err))"
         }
     }
 

@@ -1,4 +1,8 @@
-import Foundation // for LocalizedError
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
+#endif
 
 // rough equivalent to an opaque path - serves a similar function to Automerge.PathElement
 // but from an external, path-only point of view to reference or build a potentially existing

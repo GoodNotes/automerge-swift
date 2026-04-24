@@ -11,7 +11,7 @@ public struct ChangeHash: Equatable, Hashable, CustomDebugStringConvertible, Sen
 
     /// The hex value of the change hash.
     public var debugDescription: String {
-        bytes.map { String(format: "%02hhx", $0) }.joined()
+        bytes.automergeHexString()
     }
 }
 

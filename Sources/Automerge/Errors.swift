@@ -29,13 +29,7 @@ public struct DocError: LocalizedError {
     }
 
     public var errorDescription: String? {
-        inner.errorDescription
-    }
-}
-
-extension FfiDocError: LocalizedError {
-    public var errorDescription: String? {
-        switch self {
+        switch inner {
         case let .WrongObjectType(message: msg):
             return "WrongObjectType: \(msg)"
         case let .Internal(message: msg):

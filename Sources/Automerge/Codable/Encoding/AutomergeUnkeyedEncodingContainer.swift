@@ -1,4 +1,8 @@
-import Foundation // for Date support
+#if canImport(FoundationEssentials)
+import FoundationEssentials
+#else
+import Foundation
+#endif
 #if canImport(os)
 import os // for structured logging
 #endif

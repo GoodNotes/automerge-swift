@@ -92,11 +92,11 @@ extension ScalarValue: CustomStringConvertible {
             var stringRep = "Data("
             if data.count > 16 {
                 let first16Bytes = data[0 ..< 15]
-                stringRep.append(first16Bytes.map { Swift.String(format: "%02hhx", $0) }.joined())
+                stringRep.append(first16Bytes.automergeHexString())
             } else {
-                stringRep.append(data.map { Swift.String(format: "%02hhx", $0) }.joined())
+                stringRep.append(data.automergeHexString())
             }
-            return stringRep.appending(")")
+            return stringRep + ")"
         case let .String(stringVal):
             return "String(\(stringVal))"
         case let .Uint(uintVal):
@@ -119,7 +119,7 @@ extension ScalarValue: CustomStringConvertible {
         case let .Timestamp(intValue):
             return "Timestamp(\(intValue))"
         case let .Unknown(typeCode: typeCode, data: data):
-            return "Unknown(type: \(typeCode), data: \(data.map { Swift.String(format: "%02hhx", $0) }.joined()))"
+            return "Unknown(type: \(typeCode), data: \(data.automergeHexString()))"
         case .Null:
             return "Null()"
         }

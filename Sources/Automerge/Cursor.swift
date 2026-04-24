@@ -16,7 +16,7 @@ public struct Cursor: Equatable, Hashable, Sendable {
 extension Cursor: CustomStringConvertible {
     /// The bytes that describe the cursor.
     public var description: String {
-        bytes.map { Swift.String(format: "%02hhx", $0) }.joined().uppercased()
+        bytes.automergeHexString(uppercase: true)
     }
 }
 
