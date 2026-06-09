@@ -4,7 +4,7 @@ import Foundation
 import PackageDescription
 
 var globalSwiftSettings: [PackageDescription.SwiftSetting] = []
-globalSwiftSettings.append(.unsafeFlags(["-Xfrontend", "-strict-concurrency=complete"]))
+globalSwiftSettings.append(.enableUpcomingFeature("StrictConcurrency"))
 
 let FFIbinaryTarget: PackageDescription.Target = .binaryTarget(
     name: "automergeFFI",
