@@ -667,7 +667,7 @@ public final class Document: @unchecked Sendable {
             defer { sendObjectDidChange() }
             try self.doc.wrapErrors {
                 try $0.splice(
-                    obj: obj.bytes, start: start, delete: delete, values: values.map { $0.toFfi() }
+                    obj: obj.bytes, start: start, deleteCount: delete, values: values.map { $0.toFfi() }
                 )
             }
         }
@@ -716,7 +716,7 @@ public final class Document: @unchecked Sendable {
             sendObjectWillChange()
             defer { sendObjectDidChange() }
             try self.doc.wrapErrors {
-                try $0.spliceText(obj: obj.bytes, start: start, delete: delete, chars: value ?? "")
+                try $0.spliceText(obj: obj.bytes, start: start, deleteCount: delete, chars: value ?? "")
             }
         }
     }
