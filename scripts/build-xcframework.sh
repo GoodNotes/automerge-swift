@@ -58,7 +58,7 @@ rm -rf "${XCFRAMEWORK_FOLDER}"
 
 mkdir -p "${SWIFT_FOLDER}"
 echo "▸ Generate Swift Scaffolding Code"
-cargo run --manifest-path "$RUST_FOLDER/Cargo.toml"  \
+cargo +stable run --manifest-path "$RUST_FOLDER/Cargo.toml"  \
     --features=uniffi/cli \
     --bin uniffi-bindgen generate \
     "$RUST_FOLDER/src/automerge.udl" \
